@@ -33,6 +33,7 @@ export class LogAnalyz implements ComponentFramework.StandardControl<IInputs, IO
         this.hostContainer.style.overflow = "hidden";
         this.topLVLContainer = this.hostContainer.parentElement?.parentElement?.parentElement?.parentElement || this.topLVLContainer;
         this.setHostSize();
+        this.refreshInputs();
 
         this.renderDOM()
     }
