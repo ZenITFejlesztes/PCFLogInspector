@@ -1,6 +1,8 @@
 import { GalleryContext } from "./galleryContext";
 import GalleryReducer from "./galleryReducer";
 
+import shortid from "shortid"
+
 import React, { useReducer, Reducer } from "react";
 
 interface GalleryStateInterface {
@@ -29,8 +31,9 @@ const GalleryState = (props) => {
     // refresh entryList
     const refreshEntries = (entryString: string) => {
         try {
-            const entryList = JSON.parse(entryString);
+            let entryList = JSON.parse(entryString);
             if (Array.isArray(entryList)) {
+                entryList = entryList.map(entry => entry.ID ? entry : ({ ...entry, ID: shortid.generate() }))
                 dispatch({ type: "REFRESH_ENTRIES", payload: entryList });
             } else {
                 dispatch({ type: "INVALID_LOGLIST" });
@@ -43,13 +46,12 @@ const GalleryState = (props) => {
     // refresh beforeAfter
     const refreshBeforeAfter = (baString: string) => {
         try {
-            const entryList = JSON.parse(baString);
+            const baTouple = JSON.parse(baString);
             if (
-                Array.isArray(entryList) &&
-                entryList.length === 2 &&
-                entryList.map((e) => typeof e === "string")
+                Array.isArray(baTouple) &&
+                baTouple.length === 2
             ) {
-                dispatch({ type: "REFRESH_BA", payload: entryList });
+                dispatch({ type: "REFRESH_BA", payload: baTouple });
             } else {
                 dispatch({ type: "INVALID_BA" });
             }
@@ -60,12 +62,11 @@ const GalleryState = (props) => {
     // refresh columnNames
     const refreshColumnNames = (columnsString: string) => {
         try {
-            const entryList = JSON.parse(columnsString);
+            const columnsList = JSON.parse(columnsString);
             if (
-                Array.isArray(columnsString) &&
-                entryList.map((e) => typeof e === "string")
+                Array.isArray(columnsList)
             ) {
-                dispatch({ type: "REFRESH_COLUMNS", payload: entryList.slice(0,3) });
+                dispatch({ type: "REFRESH_COLUMNS", payload: columnsList.slice(0,4) });
             } else {
                 dispatch({ type: "INVALID_COLUMNS" });
             }
@@ -76,7 +77,7 @@ const GalleryState = (props) => {
 
     // set selected entry
     const setSelectedEntry = (newEntryId: number) => {
-        const newEntry = state.entryList[newEntryId] || null;
+        const newEntry = state.entryList.find(i => i.ID === newEntryId) || null;
         dispatch({ type: "SET_SELECTED_ENTRY", payload: newEntry });
     };
 

@@ -12,11 +12,11 @@ const GalleryContainer = () => {
 
 
     return (
-        <Holder style={{display: "flex", flexDirection: "column", overflow: "hidden", border: "1px solid black"}} >
-            <div style={{flex: "0 1 auto"}} >
+        <Holder style={{display: "flex", flexDirection: "column", overflow: "hidden", /* border: "1px solid black" */}} >
+            <div style={{flex: "0 1 auto", boxSizing: "border-box"}} >
                 <GallerySearch />
             </div>
-            <div style={{flex: "1 1 0", minHeight: "0px"}}>
+            <div style={{flex: "1 1 0", minHeight: "0px", boxSizing: "border-box"}}>
                 <Gallery />
             </div>
         </Holder>

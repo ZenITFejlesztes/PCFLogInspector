@@ -19,7 +19,6 @@ const App = (props: RProps) => {
                 <UpdateInputs parentProps={props} />
                 <BodyHolder >
                     <GalleryContainer />
-                    <GalleryContainer />
                 </BodyHolder>
         </GalleryState>
     )

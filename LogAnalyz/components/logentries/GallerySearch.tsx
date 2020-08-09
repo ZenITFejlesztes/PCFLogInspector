@@ -2,9 +2,13 @@ import React, { useContext, useState, useCallback, useRef } from "react";
 
 import styled from "@emotion/styled"
 
+import { AiOutlineSearch } from "react-icons/ai"
+
 import { GalleryContext, GalleryContextInterface } from "../../context/galleryContext"
 
-import { SearchInput } from "../elements";
+import { SearchInput, ContainerBasic, SearchInputBackground } from "../elements";
+
+const IconHolder = ContainerBasic;
 
 const GallerySearch = () => {
     const [searchTerm, setSearchTerm] = useState("")
@@ -27,18 +31,29 @@ const GallerySearch = () => {
 
     return (
         <div>
-            <SearchInput
+            <ContainerBasic
+            style={{
+                display: "flex",
+                borderBottom: "1px solid black",
+                padding: ".5px"
+            }}
+            >
+                <SearchInputBackground
                 style={{
-                    borderBottom: "1px solid black",
-                    outline: "nonr"
+                    outline: "none",
+                    minWidth: "0px",
+                    flex: "1 1 0"
                 }}
-                hoverFill="#eee"
-                type="text"
-                placeholder="Search here..."
-                value={searchTerm}
-                onChange={onInputChange}
-                onKeyDown={submitSearch}
-            />
+                >
+                    <SearchInput
+                        type="text"
+                        placeholder="Search here..."
+                        value={searchTerm}
+                        onChange={onInputChange}
+                        onKeyDown={submitSearch}
+                    />
+                </SearchInputBackground>
+            </ContainerBasic>
             <InfoHolder>
                 <p style={{maxWidth: "70%", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}} >Last search: {lastSearchTerm} </p>
                 <p >Entries found: {displayList.length} </p>
