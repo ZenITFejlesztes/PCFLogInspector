@@ -30,11 +30,38 @@ const GalleryState = (props) => {
 
     // refresh entryList
     const refreshEntries = (entryString: string) => {
+        // sorts based on the name of the date property
+        function sortEntries( entries: any[], dateValueName: any ) {
+            return entries.sort((a, b) => {
+                const dateA = Date.parse(a[dateValueName])
+                const dateB = Date.parse(b[dateValueName])
+                if (isNaN(dateA) || isNaN(dateB)) return 0
+                return dateB - dateA
+            })
+        }
+
         try {
             let entryList = JSON.parse(entryString);
             if (Array.isArray(entryList)) {
+                // adding ID if doesnt exist
                 entryList = entryList.map(entry => entry.ID ? entry : ({ ...entry, ID: shortid.generate() }))
-                dispatch({ type: "REFRESH_ENTRIES", payload: entryList });
+                // checking for createdAt / created_at / created
+                const type1 = entryList.filter( e => e.createdAt )
+                const type2 = entryList.filter( e => e.created_at )
+                const type3 = entryList.filter( e => e.created )
+                switch (entryList.length) {
+                    case type1.length:
+                        entryList = sortEntries(entryList, "createdAt");
+                        dispatch({ type: "REFRESH_ENTRIES", payload: entryList });
+                    case type2.length:
+                        entryList = sortEntries(entryList, "created_at");
+                        dispatch({ type: "REFRESH_ENTRIES", payload: entryList });
+                    case type3.length:
+                        entryList = sortEntries(entryList, "created");
+                        dispatch({ type: "REFRESH_ENTRIES", payload: entryList });
+                    default:
+                        dispatch({ type: "REFRESH_ENTRIES", payload: entryList });
+                }
             } else {
                 dispatch({ type: "INVALID_LOGLIST" });
             }
@@ -86,7 +113,7 @@ const GalleryState = (props) => {
         if (searchTerm == "" || searchTerm === " ") {
             dispatch({ type: "FILTER_ENTRIES", payload: state.entryList });
         } else {
-            const matches = state.entryList.filter((v) => JSON.stringify(v).includes(searchTerm));
+            const matches = state.entryList.filter((v) => JSON.stringify(v).toLowerCase().includes(searchTerm.toLowerCase()));
             dispatch({ type: "FILTER_ENTRIES", payload: matches });
         }
     };

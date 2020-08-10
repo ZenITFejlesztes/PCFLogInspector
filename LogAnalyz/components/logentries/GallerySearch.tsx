@@ -35,7 +35,8 @@ const GallerySearch = () => {
             style={{
                 display: "flex",
                 borderBottom: "1px solid black",
-                padding: ".5px"
+                padding: "0px",
+                paddingBottom: ".5px"
             }}
             >
                 <SearchInputBackground

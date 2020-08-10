@@ -13,7 +13,7 @@ const GalleryContainer = () => {
 
     return (
         <Holder style={{display: "flex", flexDirection: "column", overflow: "hidden", /* border: "1px solid black" */}} >
-            <div style={{flex: "0 1 auto", boxSizing: "border-box"}} >
+            <div style={{flex: "0 1 auto", boxSizing: "border-box", margin: "0px", padding: "0px"}} >
                 <GallerySearch />
             </div>
             <div style={{flex: "1 1 0", minHeight: "0px", boxSizing: "border-box"}}>

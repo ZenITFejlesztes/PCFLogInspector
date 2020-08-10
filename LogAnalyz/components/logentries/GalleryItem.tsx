@@ -1,10 +1,14 @@
 import React, { useContext, useMemo, useCallback, useEffect, useState } from "react";
 
-import { ItemHolder, DataHolder } from "../elements";
+import ReactTooltip from "react-tooltip";
 
-import useTransformProperties from "./useTransformProperties"
+import { ItemHolder, DataHolder, ParagraphBasic } from "../elements";
+
+import useTransformProperties from "./useTransformProperties";
 
 import shortid from "shortid";
+
+import { isEqual } from "lodash";
 
 import { GalleryContext, GalleryContextInterface } from "../../context/galleryContext";
 
@@ -13,31 +17,68 @@ interface IProps {
 }
 
 const GalleryItem = ({ item }: IProps) => {
-    const { columnNames, setSelectedEntry, selectedEntry } = useContext(GalleryContext) as GalleryContextInterface;
+    const { columnNames, setSelectedEntry, selectedEntry } = useContext(
+        GalleryContext
+    ) as GalleryContextInterface;
 
-    const displayValues = useMemo(() => useTransformProperties(columnNames, item), [item, columnNames])
+    const displayValues = useMemo(() => useTransformProperties(columnNames, item), [
+        item,
+        columnNames,
+    ]);
 
-    const onSelection = useCallback(() => { setSelectedEntry(item.ID); console.log("clicked") },[setSelectedEntry, item])
+    const onSelection = useCallback(() => setSelectedEntry(item.ID), [setSelectedEntry, item]);
 
-    const [selected, setSelected] = useState(false);
-
-    useEffect(() => {
-        selectedEntry?.ID == item.ID ? setSelected(true) : setSelected(false)
-    }, [selected, item])
+    const selected = useMemo(() => item.ID == selectedEntry?.ID, [selectedEntry, item]);
 
     return (
-        <ItemHolder
-            style={{
-                padding: "0px .5em",
-                userSelect: "none",
-                WebkitUserSelect: "none",
-                background: `${selected ? "#e7e7e7" : "transparent"}`
-            }}
-            onClick={onSelection}
-        >
-            { displayValues.map(val => <DataHolder key={shortid.generate()} style={{flex: "1", margin: "0px .5em"}} > {val} </DataHolder> ) }
-        </ItemHolder>
+        <GalleryPresentation
+            selected={selected}
+            onSelection={onSelection}
+            displayValues={displayValues}
+        />
     );
 };
+
+const GalleryPresentation = React.memo(
+    ({
+        selected,
+        onSelection,
+        displayValues,
+    }: {
+        selected: boolean;
+        onSelection: () => void;
+        displayValues: string[];
+    }) => {
+        return (
+            <ItemHolder
+                style={{
+                    padding: "0px .5em",
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                    background: `${selected ? "#e7e7e7" : "transparent"}`,
+                }}
+                onClick={onSelection}
+            >
+                {displayValues.map((val) => {
+                    const thisId = shortid.generate();
+                    return (
+                        <DataHolder
+                            style={{ flex: "1", margin: "0px .5em" }}
+                            key={shortid.generate()}
+                        >
+                            {" "}
+                            {val}{" "}
+                        </DataHolder>
+                    );
+                })}
+            </ItemHolder>
+        );
+    },
+    (prev, next) => {
+        return (
+            isEqual(prev.displayValues, next.displayValues) && isEqual(prev.selected, next.selected)
+        );
+    }
+);
 
 export default GalleryItem;

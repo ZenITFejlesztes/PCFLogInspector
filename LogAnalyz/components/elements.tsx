@@ -1,5 +1,14 @@
 import styled from "@emotion/styled"
 
+import {colorPrimary, colorSecondary} from "../styles/palette"
+
+export const ParagraphBasic = styled.p`
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+`
 
 export const ContainerBasic = styled.div`
     box-sizing: border-box;
@@ -16,6 +25,12 @@ export const Holder = styled.div`
     margin: 0px;
     padding: 0px;
     overflow: hidden;
+`
+
+export const VerticalHolder = styled(Holder)`
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
 `
 
 export const BodyHolder = styled(Holder)`
@@ -35,7 +50,7 @@ export const ScrollableHolder = styled(Holder)`
         background: transparent;
     }
     ::-webkit-scrollbar-thumb{
-        background: #3c3c3c;
+        background: ${colorPrimary};
     }
 `
 
@@ -47,14 +62,14 @@ interface SearchInputProps {
 }
 
 export const SearchInput = styled.input`
+    font-size: 1em;
     box-sizing: border-box;
     background: transparent;
     padding: .1em .4em;
-    height: 2.4em;
     margin: 0px;
     width: 100%;
+    height: 2em;
     border: none;
-    height: 100%;
     outline: none;
     color: black;
     transition: color .2s ease;
@@ -77,14 +92,30 @@ export const SearchInputBackground = styled.div`
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
+        right: 50%;
         bottom: 0;
-        background: #3c3c3c;
+        background: ${colorPrimary};
         transform: scaleX(0);
         transform-origin: center left;
         transition: transform .2s ease;
     }
-    :hover:before, :active:before, :focus:before{
+    :after{
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        right: 0;
+        bottom: 0;
+        background: ${colorPrimary};
+        transform: scaleX(0);
+        transform-origin: center right;
+        transition: transform .2s ease;
+    }
+    :hover:before, :active:before, :focus-within:before{
+        transform: scaleX(1);
+    }
+    :hover:after, :active:after, :focus-within:after{
         transform: scaleX(1);
     }
 `
