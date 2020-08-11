@@ -2,11 +2,11 @@ import React, { useContext, useMemo, useRef, useEffect } from "react";
 
 import shortid from "shortid";
 
-import { ScrollableHolder, ItemHolder, DataHolder } from "../elements";
+import { ScrollableHolder } from "../elements";
 
 import { GalleryContext, GalleryContextInterface } from "../../context/galleryContext";
 
-import GalleryItem from "./GalleryItem";
+import GalleryItemContainer from "./GalleryItemContainer";
 
 interface IProps {
     columnNames: string[];
@@ -14,39 +14,21 @@ interface IProps {
 }
 
 const Gallery = ({}: any) => {
-    const {displayList, columnNames} = useContext(GalleryContext) as GalleryContextInterface;
+    const {displayList} = useContext(GalleryContext) as GalleryContextInterface;
 
     return useMemo(
-        () => { console.log("rendered!"); return (
-            <ScrollableHolder
-                style={{
-                    fontSize: ".5em",
-                }}
-            >
-                <ItemHolder
+        () => (
+                <ScrollableHolder
                     style={{
-                        background: "#3d3d3d",
-                        color: "white",
-                        userSelect: "none",
-                        MozUserSelect: "none",
+                        fontSize: ".5em",
                     }}
                 >
-                    {columnNames.map((name) => (
-                        <DataHolder
-                            key={shortid.generate()}
-                            style={{ flex: "1", textAlign: "center", margin: "0px" }}
-                        >
-                            {" "}
-                            {name}{" "}
-                        </DataHolder>
+                    {displayList.map((item) => (
+                        <GalleryItemContainer key={shortid.generate()} item={item} />
                     ))}
-                </ItemHolder>
-                {displayList.map((item) => (
-                    <GalleryItem key={shortid.generate()} item={item} />
-                ))}
-            </ScrollableHolder>
-        )},
-        [displayList, columnNames]
+                </ScrollableHolder>
+        ),
+        [displayList]
     );
 };
 

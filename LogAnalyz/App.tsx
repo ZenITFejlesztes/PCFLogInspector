@@ -6,29 +6,32 @@ import GlobalStyles from "./styles/GlobalStyles"
 import Animations from "./styles/Animations"
 
 import GalleryState from "./context/galleryState"
+import DetailsState from "./context/DetailsState"
 
 import { BodyHolder, VerticalHolder, ContainerBasic, Holder } from "./components/elements"
 
 
-import BottomBar from "./components/pagelayout/BottomBar"
+import BottomBar from "./components/rightside/SettingsBar"
 import UpdateInputs from "./UpdateInputs"
 import GalleryContainer from "./components/logentries/GalleryContainer"
-import RightSideView from "./components/pagelayout/RightSideView"
+import RightSideView from "./components/rightside/RightSideView"
 
 
 const App = (props: RProps) => {
     return (
         <GalleryState>
-            <Holder style={{position: "relative"}} >
-                <GlobalStyles />
-                <Animations />
-                <UpdateInputs parentProps={props} />
-                <BodyHolder>
-                        <GalleryContainer />
-                        <RightSideView />
-                </BodyHolder>
-                <BottomBar />
-            </Holder>
+            <DetailsState>
+                <Holder style={{position: "relative"}} >
+                    <GlobalStyles />
+                    <Animations />
+                    <UpdateInputs parentProps={props} />
+                    <BodyHolder>
+                            <GalleryContainer />
+                            <RightSideView />
+                    </BodyHolder>
+                    <BottomBar />
+                </Holder>
+            </DetailsState>
         </GalleryState>
     )
 }

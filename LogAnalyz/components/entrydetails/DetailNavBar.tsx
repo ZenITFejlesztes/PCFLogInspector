@@ -1,16 +1,23 @@
-import React, { useRef, MutableRefObject } from "react";
+import React, { useRef, useContext, useCallback } from "react";
+
+import shortid from "shortid"
 
 import { ContainerBasic, Holder } from "../elements";
 
-import { colorLightest, colorPrimary, colorLighter, colorMiddle } from "../../styles/palette";
+import { colorPrimary, colorMiddle } from "../../styles/palette";
 
 import styled from "@emotion/styled";
 
-import Arrow from "./Arrow"
+import Arrow from "./Arrow";
+
+import { DetailsContext, DetailsContextInterface } from "../../context/detailsContext";
 
 const DetailNavBar = () => {
+    const { openedPanes, removeExistingPane, setSelectedPane } = useContext(
+        DetailsContext
+    ) as DetailsContextInterface;
 
-    const navCardListRef = useRef(null)
+    const navCardListRef = useRef(null);
 
     return (
         <ContainerBasic
@@ -20,19 +27,16 @@ const DetailNavBar = () => {
                 position: "relative",
             }}
         >
-            <NavCardList
-            ref={navCardListRef}
-            >
-                <NavCard>I'm one</NavCard>
-                <NavCard>I'm one</NavCard>
-                <NavCard>I'm one, but really loong</NavCard>
-                <NavCard>But i am even longer muhah hahah hahaha</NavCard>
-                <NavCard>I'm one</NavCard>
-                <NavCard>I'm one</NavCard>
-                <NavCard>I'm one</NavCard>
+            <NavCardList ref={navCardListRef}>
+                {openedPanes &&
+                    openedPanes.map((pane) => (
+                        <NavCard key={shortid.generate()} onClick={() => setSelectedPane(pane.ID)}> 
+                            {pane.title} 
+                        </NavCard>
+                    ))}
             </NavCardList>
-            <Arrow  holderReference={navCardListRef} direction="left" />    
-            <Arrow  holderReference={navCardListRef} direction="right" />    
+            <Arrow holderReference={navCardListRef} direction="left" />
+            <Arrow holderReference={navCardListRef} direction="right" />
         </ContainerBasic>
     );
 };
@@ -40,14 +44,16 @@ const DetailNavBar = () => {
 export default DetailNavBar;
 
 const NavCard = styled(Holder)`
-    margin: 0px .2em;
+    position: relative;
+    margin: 0px 0.2em;
     flex: 0 0 auto;
     width: 15ch;
     height: 80%;
-    background: ${colorLightest};
+    background: ${colorMiddle};
+    color: white;
     font-size: 0.6em;
 
-    padding: 0px .3em;
+    padding: 0px 0.3em;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -85,5 +91,3 @@ const NavCardList = styled(Holder)`
         background: ${colorPrimary};
     }
 `;
-
-

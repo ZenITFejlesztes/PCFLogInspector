@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { Holder } from "../elements"
 
-import DetailNavBar from "./DetailNavBar"
+import DetailNavBar from "../entrydetails/DetailNavBar"
 import DetailContainer from "../entrydetails/DetailContainer"
 
 const RightSideView = () => {
