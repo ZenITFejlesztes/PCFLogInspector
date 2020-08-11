@@ -6,9 +6,15 @@ import detailsReducer from "./detailsReducer";
 import { DetailsContext, DetailsStateInterface, PaneInterface } from "./detailsContext";
 
 export default (props) => {
+    const examplePane: PaneInterface = {
+        title: "title",
+        selectedEntry: {},
+        ID: "just an ID"
+    }
+
     const initialState: DetailsStateInterface = {
         openedPanes: null,
-        selectedPane: null,
+        selectedPane: null as unknown as PaneInterface,
     };
 
     const [state, dispatch] = useReducer<
@@ -52,10 +58,7 @@ export default (props) => {
 
     const setSelectedPane = (paneID: string): void => {
         if (!paneID) return;
-        if (!state.openedPanes) return;
-        const newPane = state.openedPanes.find((p) => p.ID === paneID);
-        if (!newPane) return;
-        dispatch({ type: "SET_SELECTED_PANE", payload: newPane });
+        dispatch({ type: "SET_SELECTED_PANE", payload: paneID });
     };
 
     // change selectedPane's selectedEntry

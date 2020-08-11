@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useCallback, useEffect, useState } from "react";
+import React, { useContext, useMemo, useCallback, useEffect, useState, useRef } from "react";
 
 import useTransformProperties from "../customHooks/useTransformProperties";
 import useDoubleClickHandler from "../customHooks/useDoubleClickHandler";
@@ -17,7 +17,7 @@ const GalleryItemContainer = ({ item }: IProps) => {
         GalleryContext
     ) as GalleryContextInterface;
 
-    const { createNewPane, updateSelectedPaneEntry } = useContext(
+    const { createNewPane, updateSelectedPaneEntry, selectedPane } = useContext(
         DetailsContext
     ) as DetailsContextInterface;
 
@@ -28,13 +28,13 @@ const GalleryItemContainer = ({ item }: IProps) => {
 
     const [queUpdate, clearUpdateQue] = useDoubleClickHandler(
         () => updateSelectedPaneEntry(item),
-        300
+        200
     );
-
     const onSelection = useCallback(() => {
-        setSelectedEntry(item.ID);
         queUpdate();
-    }, [queUpdate, item, updateSelectedPaneEntry]);
+        setSelectedEntry(item.ID);
+        
+    }, [queUpdate, item, setSelectedEntry, updateSelectedPaneEntry]);
 
     const doOnDoubleClick = useCallback(() => {
         clearUpdateQue();

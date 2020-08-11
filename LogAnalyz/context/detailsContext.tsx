@@ -10,7 +10,7 @@ export interface PaneInterface {
 
 export interface DetailsStateInterface {
     openedPanes: PaneInterface[] | null;
-    selectedPane: PaneInterface | null;
+    selectedPane: PaneInterface;
 }
 
 export interface DetailsContextInterface extends DetailsStateInterface {

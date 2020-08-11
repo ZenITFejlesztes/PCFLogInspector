@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useCallback } from "react";
+import React, { useRef, useContext, useEffect } from "react";
 
 import shortid from "shortid"
 
@@ -13,7 +13,7 @@ import Arrow from "./Arrow";
 import { DetailsContext, DetailsContextInterface } from "../../context/detailsContext";
 
 const DetailNavBar = () => {
-    const { openedPanes, removeExistingPane, setSelectedPane } = useContext(
+    const { openedPanes, selectedPane, setSelectedPane } = useContext(
         DetailsContext
     ) as DetailsContextInterface;
 
@@ -30,7 +30,15 @@ const DetailNavBar = () => {
             <NavCardList ref={navCardListRef}>
                 {openedPanes &&
                     openedPanes.map((pane) => (
-                        <NavCard key={shortid.generate()} onClick={() => setSelectedPane(pane.ID)}> 
+                        <NavCard 
+                        style={{
+                            background: pane.ID === selectedPane.ID ? "white" : colorMiddle,
+                            color: pane.ID === selectedPane.ID ? "black" : "white",
+                            fontSize: pane.ID === selectedPane.ID ? ".7em" : ".6em"
+                        }}
+                        key={shortid.generate()} 
+                        onClick={() => setSelectedPane(pane.ID)}
+                        > 
                             {pane.title} 
                         </NavCard>
                     ))}
