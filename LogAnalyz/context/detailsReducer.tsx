@@ -13,9 +13,10 @@ export default function (state: DetailsStateInterface, action) {
                 openedPanes: [ ...state.openedPanes, action.payload ],
                 selectedPane: action.payload
             }
+
         case "REMOVE_PANE":
             if (! state.openedPanes) return { ...state }
-            if (action.payload.item == state.selectedPane) {
+            if (action.payload.item.ID == state.selectedPane.ID) {
                 const nextItem = state.openedPanes[action.payload.index + 1]
                 const prevItem = state.openedPanes[action.payload.index - 1]
                 return {

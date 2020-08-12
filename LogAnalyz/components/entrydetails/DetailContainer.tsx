@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useCallback } from "react";
+import React, { useContext, useMemo, useCallback, lazy, Suspense } from "react";
 
 import { Holder } from "../elements";
 
@@ -7,6 +7,7 @@ import { DetailsContext, DetailsContextInterface } from "../../context/detailsCo
 
 import GeneralEntryInfo from "./GeneralEntryInfo";
 import CloseCurrentPane from "./CloseCurrentPane";
+const LogChangeList = lazy(() => import("./LogChangeList"))
 
 const filterObjectProperties = (oldObject: any, listToRemove: string[]) => {
     try {
@@ -30,6 +31,7 @@ const filterObjectProperties = (oldObject: any, listToRemove: string[]) => {
     }
 };
 
+
 const DetailContainer = () => {
     const {
         beforeAfter: [beforeColumnName, afterColumnName],
@@ -48,7 +50,7 @@ const DetailContainer = () => {
     );
 
     const removeThisPane = useCallback(() => {
-        removeExistingPane(selectedPane.ID);
+        if (selectedPane) removeExistingPane(selectedPane.ID);
     }, [removeExistingPane, selectedPane]);
 
     return (
@@ -62,8 +64,13 @@ const DetailContainer = () => {
             }}
         >
             <div style={{ flex: "0 1 auto" }}>
-                <CloseCurrentPane removePane={removeThisPane} />
+                {genInfoToDisplay && <CloseCurrentPane removePane={removeThisPane} />}
                 {genInfoToDisplay && <GeneralEntryInfo info={genInfoToDisplay} />}
+            </div>
+            <div style={{flex: "1 1 auto", minHeight: "0px"}} >
+                <Suspense fallback={ ( <div>Loading...</div> ) } >
+                    {genInfoToDisplay &&  <LogChangeList  inpData={{beforeColumnName, afterColumnName, selectedPane}} /> }
+                </Suspense>
             </div>
         </Holder>
     );

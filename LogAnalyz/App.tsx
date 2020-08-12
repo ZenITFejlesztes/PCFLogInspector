@@ -22,8 +22,6 @@ const App = (props: RProps) => {
         <GalleryState>
             <DetailsState>
                 <Holder style={{position: "relative"}} >
-                    <GlobalStyles />
-                    <Animations />
                     <UpdateInputs parentProps={props} />
                     <BodyHolder>
                             <GalleryContainer />
@@ -31,6 +29,8 @@ const App = (props: RProps) => {
                     </BodyHolder>
                     <BottomBar />
                 </Holder>
+                <GlobalStyles />
+                <Animations />
             </DetailsState>
         </GalleryState>
     )

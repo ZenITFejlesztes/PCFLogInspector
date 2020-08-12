@@ -17,6 +17,9 @@ const Animations = () => {
                 transform: scaleY(0);
                 transform-origin: bottom center;
             }
+            .horizontal-disappear{
+                flex: 0.2 1 0px;
+            }
         ` }
         />
     )
