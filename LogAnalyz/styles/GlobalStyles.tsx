@@ -11,6 +11,11 @@ const GlobalStyles = () => {
                 margin: 0px;
                 padding: 0px;
             }
+
+            .acsudzgaudcg-mainCont{
+                font-size: 18px;
+            }
+
             @keyframes searchInputFocusAnimation{
                 0% {
                     background-color: white

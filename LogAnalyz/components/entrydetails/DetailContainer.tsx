@@ -1,13 +1,16 @@
-import React, { useContext, useMemo, useCallback, lazy, Suspense } from "react";
+import React, { useContext, useMemo, useState, useCallback, lazy, Suspense } from "react";
 
 import { Holder } from "../elements";
+
+import { MdClose } from "react-icons/md";
 
 import { GalleryContext, GalleryContextInterface } from "../../context/galleryContext";
 import { DetailsContext, DetailsContextInterface } from "../../context/detailsContext";
 
 import GeneralEntryInfo from "./GeneralEntryInfo";
-import CloseCurrentPane from "./CloseCurrentPane";
-const LogChangeList = lazy(() => import("./LogChangeList"))
+import HiddenSetting from "./HiddenSetting";
+const LogChangeList = lazy(() => import("./LogChangeList"));
+import FindSimilatContainer from "./finder/FindSimilarContainer"
 
 const filterObjectProperties = (oldObject: any, listToRemove: string[]) => {
     try {
@@ -31,7 +34,6 @@ const filterObjectProperties = (oldObject: any, listToRemove: string[]) => {
     }
 };
 
-
 const DetailContainer = () => {
     const {
         beforeAfter: [beforeColumnName, afterColumnName],
@@ -39,6 +41,8 @@ const DetailContainer = () => {
     const { selectedPane, removeExistingPane } = useContext(
         DetailsContext
     ) as DetailsContextInterface;
+
+    const [displayOption, setDisplayOption] = useState("details");
 
     const genInfoToDisplay = useMemo(
         () =>
@@ -53,6 +57,10 @@ const DetailContainer = () => {
         if (selectedPane) removeExistingPane(selectedPane.ID);
     }, [removeExistingPane, selectedPane]);
 
+    const toggleView = useCallback(() => {
+        setDisplayOption(prev => prev == "details" ? "related" : "details")
+    }, [setDisplayOption])
+
     return (
         <Holder
             style={{
@@ -64,13 +72,30 @@ const DetailContainer = () => {
             }}
         >
             <div style={{ flex: "0 1 auto" }}>
-                {genInfoToDisplay && <CloseCurrentPane removePane={removeThisPane} />}
+                {genInfoToDisplay && (
+                    <HiddenSetting
+                        onClickAction={removeThisPane}
+                        Icon={MdClose}
+                        title="Close pane"
+                    />
+                )}
                 {genInfoToDisplay && <GeneralEntryInfo info={genInfoToDisplay} />}
             </div>
-            <div style={{flex: "1 1 auto", minHeight: "0px"}} >
-                <Suspense fallback={ ( <div>Loading...</div> ) } >
-                    {genInfoToDisplay &&  <LogChangeList  inpData={{beforeColumnName, afterColumnName, selectedPane}} /> }
-                </Suspense>
+            <div style={{ flex: "1 1 auto", minHeight: "0px" }}>
+                {displayOption == "details" && (
+                    <Suspense fallback={<div>Loading...</div>}>
+                        {genInfoToDisplay && (
+                            <LogChangeList
+                                inpData={{ beforeColumnName, afterColumnName, selectedPane }}
+                                toggleView={toggleView}
+                            />
+                        )}
+                    </Suspense>
+                )}
+                {
+                    displayOption == "related" &&
+                    <FindSimilatContainer  toggleView={toggleView} />
+                }
             </div>
         </Holder>
     );

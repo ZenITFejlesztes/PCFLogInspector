@@ -17,7 +17,7 @@ const LogChangeItem = ({ item}: IProps) => {
                 userSelect: "none",
                 // background: selected ? colorLightest : "transparent",
             }}
-            tabIndex={0}
+            onClick={e => e.currentTarget.classList.toggle("toggled")}
             data-item-name={item[0]}
         >
             <MyDataHolder> {item[0]} </MyDataHolder>
@@ -38,11 +38,13 @@ const MyItemHolder = styled(ItemHolder)`
     
     transition: height .2s ease;
 
-    :focus, :focus-within, :active{
+    &.toggled{
         height: 9em;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: flex-start;
-        padding: .5em;
+        padding: .8em;
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
     }
 `;

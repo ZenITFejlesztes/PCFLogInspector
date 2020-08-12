@@ -3,11 +3,14 @@ import React, { useMemo, useCallback, useState } from "react";
 import { uniq } from "lodash";
 import shortid from "shortid";
 
-import { ScrollableHolder } from "../elements";
+import { AiOutlineSearch } from "react-icons/ai"
+
+import { ScrollableHolder, Holder } from "../elements";
 import { PaneInterface } from "../../context/detailsContext";
 import useTransformProperties from "../customHooks/useTransformProperties";
 
 import LogChangeItem from "./LogChangeItem";
+import HiddenSetting from "./HiddenSetting"
 
 interface IProps {
     inpData: {
@@ -15,6 +18,7 @@ interface IProps {
         afterColumnName: string;
         selectedPane: PaneInterface;
     };
+    toggleView: () => void;
 }
 
 const getLogChangeList = (entryObject: any, beforeColumnName: string, afterColumnName: string) => {
@@ -35,7 +39,7 @@ const getLogChangeList = (entryObject: any, beforeColumnName: string, afterColum
     }, []);
 };
 
-const LogChaneList = ({ inpData: { beforeColumnName, afterColumnName, selectedPane } }: IProps) => {
+const LogChaneList = ({ inpData: { beforeColumnName, afterColumnName, selectedPane }, toggleView }: IProps) => {
     const [selected, setSelected] = useState<any>();
 
     const logChangeList = useMemo(
@@ -47,12 +51,15 @@ const LogChaneList = ({ inpData: { beforeColumnName, afterColumnName, selectedPa
     );
 
     return (
-        <ScrollableHolder>
-            {logChangeList &&
-                logChangeList.map((item) => (
-                    <LogChangeItem key={shortid.generate()} item={item} />
-                ))}
-        </ScrollableHolder>
+        <Holder style={{position: "relative"}} >
+            <HiddenSetting onClickAction={toggleView} Icon={AiOutlineSearch} title="Find similar" />
+            <ScrollableHolder >
+                {logChangeList &&
+                    logChangeList.map((item) => (
+                        <LogChangeItem key={shortid.generate()} item={item} />
+                    ))}
+            </ScrollableHolder>
+        </Holder>
     );
 };
 

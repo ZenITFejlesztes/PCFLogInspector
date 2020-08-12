@@ -64,7 +64,13 @@ export default (props) => {
     // change selectedPane's selectedEntry
     const updateSelectedPaneEntry = (entry: any): void => {
         if (!entry) return;
-        dispatch({ type: "UPDATE_SELECTED_PANE_ENTRY", payload: entry });
+        const title: string =
+            entry.title && typeof entry.title === "string"
+                ? entry.title
+                : entry.Title && typeof entry.Title === "string"
+                ? entry.Title
+                : "New Pane";
+        dispatch({ type: "UPDATE_SELECTED_PANE_ENTRY", payload: { entry, title } });
     };
 
     return (

@@ -1,18 +1,9 @@
-import { GalleryContext } from "./galleryContext";
+import { GalleryContext, GalleryStateInterface } from "./galleryContext";
 import GalleryReducer from "./galleryReducer";
 
 import shortid from "shortid"
 
 import React, { useReducer, Reducer } from "react";
-
-interface GalleryStateInterface {
-    entryList: any[];
-    displayList: any[];
-    beforeAfter: [string, string];
-    columnNames: string[];
-    selectedEntry: any;
-    errorMessage: string;
-}
 
 const GalleryState = (props) => {
     const initialState = {
@@ -117,6 +108,13 @@ const GalleryState = (props) => {
             dispatch({ type: "FILTER_ENTRIES", payload: matches });
         }
     };
+    
+    // find similar 
+    const findRelatedEntries = (searchTerm: string, columnToLookIn: string) => {
+        if (searchTerm == "" || searchTerm === " ") return;
+        const matches = state.entryList.filter(entry => entry[columnToLookIn] && entry[columnToLookIn].includes(searchTerm))
+        dispatch({ type: "FILTER_ENTRIES", payload: matches });
+    } 
 
     return (
         <GalleryContext.Provider
@@ -126,11 +124,13 @@ const GalleryState = (props) => {
                 columnNames: state.columnNames,
                 selectedEntry: state.selectedEntry,
                 displayList: state.displayList,
+                errorMessage: state.errorMessage,
                 setSelectedEntry,
                 refreshEntries,
                 refreshBeforeAfter,
                 refreshColumnNames,
                 filterEntries,
+                findRelatedEntries
             }}
         >
             {props.children}

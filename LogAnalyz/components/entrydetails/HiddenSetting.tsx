@@ -2,30 +2,33 @@ import React from 'react'
 
 import styled from "@emotion/styled"
 
-import { MdClose } from "react-icons/md"
+import { IconType } from "react-icons"
 
 import { colorPrimary } from "../../styles/palette"
 
 import { Holder } from "../elements"
 
 interface IProps {
-    removePane: () => void;
+    onClickAction: () => void;
+    Icon: IconType;
+    title?: string;
+    color?: string;
 }
 
-const CloseCurrentPane = ({removePane}: IProps ) => {
+const HiddenSetting = ({onClickAction, Icon, title="", color="white"}: IProps ) => {
     return (
         <MyHolder>
             <div 
             style={{cursor: "pointer"}} 
-            onClick={removePane}
+            onClick={onClickAction}
             >
-                <MdClose color="white" size="2em" />
+                <Icon color={color} size="2em" title={title} />
             </div>
         </MyHolder>
     )
 }
 
-export default CloseCurrentPane
+export default HiddenSetting
 
 const MyHolder = styled(Holder)`
     overflow: visible;

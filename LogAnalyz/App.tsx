@@ -21,7 +21,7 @@ const App = (props: RProps) => {
     return (
         <GalleryState>
             <DetailsState>
-                <Holder style={{position: "relative"}} >
+                <Holder style={{position: "relative"}} className="acsudzgaudcg-mainCont" >
                     <UpdateInputs parentProps={props} />
                     <BodyHolder>
                             <GalleryContainer />
