@@ -39,13 +39,13 @@ const DetailContainer = () => {
     const {
         beforeAfter: [beforeColumnName, afterColumnName],
     } = useContext(GalleryContext) as GalleryContextInterface;
-    const { selectedPane, removeExistingPane } = useContext(
+    const { selectedPane, removeExistingPane, onlyChanges } = useContext(
         DetailsContext
     ) as DetailsContextInterface;
 
     const [displayOption, setDisplayOption] = useState("details");
 
-    // creates the details list array basically
+    // creates the general infos
     const genInfoToDisplay = useMemo(
         () =>
             filterObjectProperties(selectedPane?.selectedEntry, [
@@ -88,7 +88,7 @@ const DetailContainer = () => {
                     <Suspense fallback={<div>Loading...</div>}>
                         {genInfoToDisplay && (
                             <LogChangeList
-                                inpData={{ beforeColumnName, afterColumnName, selectedPane }}
+                                inpData={{ beforeColumnName, afterColumnName, selectedPane, onlyChanges }}
                                 toggleView={toggleView}
                             />
                         )}

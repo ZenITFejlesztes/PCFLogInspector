@@ -1,10 +1,10 @@
 import React, { MutableRefObject } from "react";
 import styled from "@emotion/styled";
 
-import { Holder, DataHolder } from "../../elements";
+import { Holder, MyParagraph } from "../../elements";
 import { colorPrimary, colorMiddle } from "../../../styles/palette";
 
-import DropDown from "./DropDown";
+import DropDown from "../../elements/DropDown";
 
 interface IProps {
     selectableColumns: string[];
@@ -41,11 +41,6 @@ const FindSimilar = ({ selectableColumns, reference, filterEntries }: IProps) =>
 };
 
 export default FindSimilar;
-
-const MyParagraph = styled(DataHolder)`
-    text-align: center;
-    margin: 0.4em;
-`;
 
 const BottomBar = styled(Holder)`
     position: absolute;

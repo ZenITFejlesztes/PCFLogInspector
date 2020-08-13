@@ -45,6 +45,9 @@ export default function (state: DetailsStateInterface, action) {
                 selectedPane: { ...state.selectedPane, selectedEntry: action.payload.entry, title: action.payload.title },
                 openedPanes: state.openedPanes.map(pane => pane.ID === state.selectedPane.ID ? { ...pane, title: action.payload.title } : pane )
             }
+        case "UPDATE_ONLY_CHANGES": 
+            if (!action.payload) return { ...state, onlyChanges: !state.onlyChanges }
+            return { ...state, onlyChanges: action.payload }
         default:
             return { ...state }
     }

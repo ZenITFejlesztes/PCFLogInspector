@@ -8,13 +8,13 @@ import Animations from "./styles/Animations"
 import GalleryState from "./context/galleryState"
 import DetailsState from "./context/DetailsState"
 
-import { BodyHolder, VerticalHolder, ContainerBasic, Holder } from "./components/elements"
+import { BodyHolder, Holder } from "./components/elements"
 
 
-import BottomBar from "./components/rightside/SettingsBar"
+import SettingsBottomBar from "./components/layout/SettingsBottomBar"
 import UpdateInputs from "./UpdateInputs"
 import GalleryContainer from "./components/logentries/GalleryContainer"
-import RightSideView from "./components/rightside/RightSideView"
+import RightSideView from "./components/layout/RightSideView"
 
 
 const App = (props: RProps) => {
@@ -27,7 +27,7 @@ const App = (props: RProps) => {
                             <GalleryContainer />
                             <RightSideView />
                     </BodyHolder>
-                    <BottomBar />
+                    <SettingsBottomBar />
                 </Holder>
                 <GlobalStyles />
                 <Animations />

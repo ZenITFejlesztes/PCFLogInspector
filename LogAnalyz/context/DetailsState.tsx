@@ -15,6 +15,7 @@ export default (props) => {
     const initialState: DetailsStateInterface = {
         openedPanes: null,
         selectedPane: null as unknown as PaneInterface,
+        onlyChanges: false
     };
 
     const [state, dispatch] = useReducer<
@@ -73,15 +74,19 @@ export default (props) => {
         dispatch({ type: "UPDATE_SELECTED_PANE_ENTRY", payload: { entry, title } });
     };
 
+    const updateOnlyChanges = (newValue?: boolean) => dispatch({type: "UPDATE_ONLY_CHANGES", payload: newValue})
+
     return (
         <DetailsContext.Provider
             value={{
                 openedPanes: state.openedPanes,
                 selectedPane: state.selectedPane,
+                onlyChanges: state.onlyChanges,
                 createNewPane,
                 removeExistingPane,
                 setSelectedPane,
                 updateSelectedPaneEntry,
+                updateOnlyChanges
             }}
         >
             {props.children}

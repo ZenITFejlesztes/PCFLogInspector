@@ -11,6 +11,7 @@ export interface PaneInterface {
 export interface DetailsStateInterface {
     openedPanes: PaneInterface[] | null;
     selectedPane: PaneInterface;
+    onlyChanges: boolean;
 }
 
 export interface DetailsContextInterface extends DetailsStateInterface {
@@ -18,6 +19,7 @@ export interface DetailsContextInterface extends DetailsStateInterface {
     removeExistingPane: (paneID: string) => void;
     setSelectedPane: (paneID: string) => void;
     updateSelectedPaneEntry: (entry: any) => void;
+    updateOnlyChanges: (newValue?: boolean) => void;
 }
 
 export const DetailsContext = createContext(null as unknown as DetailsContextInterface)

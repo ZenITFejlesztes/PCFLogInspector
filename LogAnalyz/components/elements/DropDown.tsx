@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect, MutableRefObject } from "react";
 import styled from "@emotion/styled";
 import shortid from "shortid";
 
-import { Holder, ScrollableHolder } from "../../elements";
-import { colorLightest, colorPrimary, colorMiddle } from "../../../styles/palette";
+import { Holder, ScrollableHolder } from "../elements";
+import { colorLightest, colorPrimary, colorMiddle } from "../../styles/palette";
 
 interface IProps {
     optionList: string[];

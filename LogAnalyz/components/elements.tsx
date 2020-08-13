@@ -135,4 +135,7 @@ export const DataHolder = styled.p`
     text-overflow: ellipsis;
     min-width: 0px;
 `
-
+export const MyParagraph = styled(DataHolder)`
+    text-align: center;
+    margin: 0.4em;
+`;
