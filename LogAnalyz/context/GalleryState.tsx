@@ -1,7 +1,7 @@
 import { GalleryContext, GalleryStateInterface } from "./galleryContext";
 import GalleryReducer from "./galleryReducer";
 
-import shortid from "shortid"
+import shortid from "shortid";
 
 import React, { useReducer, Reducer } from "react";
 
@@ -19,27 +19,29 @@ const GalleryState = (props) => {
         Reducer<GalleryStateInterface, { type: any; payload?: any }>
     >(GalleryReducer, initialState);
 
-    // refresh entryList
+    // @desc    Loading the fresh entries upon input change
     const refreshEntries = (entryString: string) => {
-        // sorts based on the name of the date property
-        function sortEntries( entries: any[], dateValueName: any ) {
+        // sorts based on the value of the dateValueName property
+        function sortEntries(entries: any[], dateValueName: any) {
             return entries.sort((a, b) => {
-                const dateA = Date.parse(a[dateValueName])
-                const dateB = Date.parse(b[dateValueName])
-                if (isNaN(dateA) || isNaN(dateB)) return 0
-                return dateB - dateA
-            })
+                const dateA = Date.parse(a[dateValueName]);
+                const dateB = Date.parse(b[dateValueName]);
+                if (isNaN(dateA) || isNaN(dateB)) return 0;
+                return dateB - dateA;
+            });
         }
 
         try {
             let entryList = JSON.parse(entryString);
             if (Array.isArray(entryList)) {
-                // adding ID if doesnt exist
-                entryList = entryList.map(entry => entry.ID ? entry : ({ ...entry, ID: shortid.generate() }))
-                // checking for createdAt / created_at / created
-                const type1 = entryList.filter( e => e.createdAt )
-                const type2 = entryList.filter( e => e.created_at )
-                const type3 = entryList.filter( e => e.created )
+                // adding ID to the entry if it doesnt have one
+                entryList = entryList.map((entry) =>
+                    entry.ID ? entry : { ...entry, ID: shortid.generate() }
+                );
+                // checking for createdAt / created_at / created value and then trying to sort by them
+                const type1 = entryList.filter((e) => e.createdAt);
+                const type2 = entryList.filter((e) => e.created_at);
+                const type3 = entryList.filter((e) => e.created);
                 switch (entryList.length) {
                     case type1.length:
                         entryList = sortEntries(entryList, "createdAt");
@@ -61,14 +63,11 @@ const GalleryState = (props) => {
         }
     };
 
-    // refresh beforeAfter
+    // Refreshing the Before and After column names based on the new input
     const refreshBeforeAfter = (baString: string) => {
         try {
             const baTouple = JSON.parse(baString);
-            if (
-                Array.isArray(baTouple) &&
-                baTouple.length === 2
-            ) {
+            if (Array.isArray(baTouple) && baTouple.length === 2) {
                 dispatch({ type: "REFRESH_BA", payload: baTouple });
             } else {
                 dispatch({ type: "INVALID_BA" });
@@ -77,14 +76,12 @@ const GalleryState = (props) => {
             dispatch({ type: "REFRESH_BA", payload: state.beforeAfter });
         }
     };
-    // refresh columnNames
+    // refreshing the Column Names based on the new input
     const refreshColumnNames = (columnsString: string) => {
         try {
             const columnsList = JSON.parse(columnsString);
-            if (
-                Array.isArray(columnsList)
-            ) {
-                dispatch({ type: "REFRESH_COLUMNS", payload: columnsList.slice(0,4) });
+            if (Array.isArray(columnsList)) {
+                dispatch({ type: "REFRESH_COLUMNS", payload: columnsList.slice(0, 4) });
             } else {
                 dispatch({ type: "INVALID_COLUMNS" });
             }
@@ -93,34 +90,49 @@ const GalleryState = (props) => {
         }
     };
 
-    // set selected entry
+    // Setting the currently selected entry
     const setSelectedEntry = (newEntryId: number) => {
-        const newEntry = state.entryList.find(i => i.ID === newEntryId) || null;
+        const newEntry = state.entryList.find((i) => i.ID === newEntryId) || null;
         dispatch({ type: "SET_SELECTED_ENTRY", payload: newEntry });
     };
 
-    // filter entry list
+    // Looks for an occurence of a word in the entrylist (comparing text to text)
     const filterEntries = (searchTerm: string) => {
         if (searchTerm == "" || searchTerm === " ") {
             dispatch({ type: "FILTER_ENTRIES", payload: state.entryList });
         } else {
-            const matches = state.entryList.filter((v) => JSON.stringify(v).toLowerCase().includes(searchTerm.toLowerCase()));
+            const matches = state.entryList.filter((v) =>
+                JSON.stringify(v).toLowerCase().includes(searchTerm.toLowerCase())
+            );
             dispatch({ type: "FILTER_ENTRIES", payload: matches });
         }
     };
-    
-    // find similar 
-    const findRelatedEntries = (searchTerm: string, columnToLookIn: string) => {
+
+    // Finds related / similar entries based on a set of criteria (a list of columnNames, and a list of correspondingly-ordered expected values)
+    const findRelatedEntries = (
+        searchTerm: string[] | string,
+        columnToLookIn: string[] | string
+    ) => {
         if (searchTerm == "" || searchTerm === " ") return;
-        const matches = state.entryList.filter(entry => entry[columnToLookIn] && entry[columnToLookIn].includes(searchTerm))
+        if (!Array.isArray(searchTerm)) searchTerm = [searchTerm];
+        if (!Array.isArray(columnToLookIn)) columnToLookIn = [columnToLookIn];
+        if (searchTerm.length != columnToLookIn.length) return;
+
+        // checks for every provided column whether the valus do in fact match up.
+        const matches = state.entryList.filter((entry) =>
+            (columnToLookIn as string[]).reduce<boolean>(
+                (check, col, index) => (entry[col] === searchTerm[index] ? check : false),
+                true
+            )
+        );
         dispatch({ type: "FILTER_ENTRIES", payload: matches });
-    } 
+    };
 
     return (
         <GalleryContext.Provider
             value={{
                 entryList: state.entryList,
-                beforeAfter:state.beforeAfter,
+                beforeAfter: state.beforeAfter,
                 columnNames: state.columnNames,
                 selectedEntry: state.selectedEntry,
                 displayList: state.displayList,
@@ -130,7 +142,7 @@ const GalleryState = (props) => {
                 refreshBeforeAfter,
                 refreshColumnNames,
                 filterEntries,
-                findRelatedEntries
+                findRelatedEntries,
             }}
         >
             {props.children}

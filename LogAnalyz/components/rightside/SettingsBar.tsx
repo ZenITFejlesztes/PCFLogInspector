@@ -1,39 +1,38 @@
 import React, { useEffect, useRef, MutableRefObject } from "react";
-
 import styled from "@emotion/styled";
 
 import { FiSettings } from "react-icons/fi";
 
 import { Holder, ParagraphBasic } from "../elements";
+import { colorLightest, colorPrimary} from "../../styles/palette";
 
-import { colorLightest, colorPrimary, colorSecondary } from "../../styles/palette";
 
+// @desc    The currently unused settings bar on the bottom
 const BottomBar = () => {
-    // initial visibility animation
-    // and making the red line disappear and appear
+    // most of this code is just the hide / show animation
     const hideBottomBarDelay = 3500;
     const holderRef = useRef() as MutableRefObject<HTMLDivElement>;
     const topLineRef = useRef() as MutableRefObject<HTMLDivElement>;
     const isHoveringOver = useRef(false);
     useEffect(() => {
         const thisTimeout = setTimeout(() => {
-            holderRef.current.classList.add("bottom-bar-hide");
-            if (!isHoveringOver.current) topLineRef.current.classList.remove("vertical-disappear");
+            holderRef.current.classList.add("hide");
+            if (!isHoveringOver.current) topLineRef.current.classList.remove("hide");
         }, hideBottomBarDelay);
         return () => clearTimeout(thisTimeout);
     }, []);
     const doOnMouseEnter = () => {
-        topLineRef.current.classList.add("vertical-disappear");
+        topLineRef.current.classList.add("hide");
         isHoveringOver.current = true;
     };
     const doOnMouseLeave = () => {
-        topLineRef.current.classList.remove("vertical-disappear");
+        topLineRef.current.classList.remove("hide");
         isHoveringOver.current = false;
     };
 
     return (
         <AbsHolder ref={holderRef} onMouseEnter={doOnMouseEnter} onMouseLeave={doOnMouseLeave}>
-            <TopLine className="vertical-disappear" ref={topLineRef}></TopLine>
+            <TopLine className="hide" ref={topLineRef}></TopLine>
             <BottomHolder>
                 <ParagraphBasic style={{ fontSize: ".5em" }}>
                     Application data inspector by ZenIT
@@ -53,6 +52,13 @@ const AbsHolder = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
+    &.hide{
+        transform: translateY(calc(2em));
+        transition: transform .2s ease;
+        :hover, :active, :focus{
+            transform: translateY(0);
+        }
+    }
 `;
 
 const TopLine = styled.div`
@@ -62,6 +68,10 @@ const TopLine = styled.div`
     background: ${colorPrimary};
     transition: transform 0.2s ease;
     transform-origin: bottom center;
+    &.hide{
+        transform: scaleY(0);
+        transform-origin: bottom center;
+    }
 `;
 
 const BottomHolder = styled(Holder)`

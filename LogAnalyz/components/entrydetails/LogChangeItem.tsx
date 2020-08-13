@@ -1,21 +1,20 @@
 import React from "react";
-
 import styled from "@emotion/styled";
-import { ItemHolder, DataHolder } from "../elements";
 
+import { ItemHolder, DataHolder } from "../elements";
 import { colorLightest } from "../../styles/palette";
 
 interface IProps {
     item: [string, string, string];
 }
 
+// @desc    Individual logitem
 const LogChangeItem = ({ item}: IProps) => {
     return (
         <MyItemHolder
             style={{
                 cursor: "default",
-                userSelect: "none",
-                // background: selected ? colorLightest : "transparent",
+                userSelect: "none"
             }}
             onClick={e => e.currentTarget.classList.toggle("toggled")}
             data-item-name={item[0]}
@@ -35,7 +34,7 @@ const MyDataHolder = styled(DataHolder)`
 `;
 
 const MyItemHolder = styled(ItemHolder)`
-    
+    max-width: 100%;
     transition: height .2s ease;
 
     &.toggled{

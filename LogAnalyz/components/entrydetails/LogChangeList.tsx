@@ -1,16 +1,15 @@
-import React, { useMemo, useCallback, useState } from "react";
-
+import React, { useMemo } from "react";
 import { uniq } from "lodash";
 import shortid from "shortid";
 
 import { AiOutlineSearch } from "react-icons/ai"
-
 import { ScrollableHolder, Holder } from "../elements";
-import { PaneInterface } from "../../context/detailsContext";
-import useTransformProperties from "../customHooks/useTransformProperties";
 
+import { PaneInterface } from "../../context/detailsContext";
 import LogChangeItem from "./LogChangeItem";
 import HiddenSetting from "./HiddenSetting"
+
+import useTransformProperties from "../customHooks/useTransformProperties";
 
 interface IProps {
     inpData: {
@@ -21,6 +20,7 @@ interface IProps {
     toggleView: () => void;
 }
 
+// Shuffles together the given properties from the entry object into a list of triplets
 const getLogChangeList = (entryObject: any, beforeColumnName: string, afterColumnName: string) => {
     const beforeData = JSON.parse(entryObject[beforeColumnName]) || {};
     const afterData = JSON.parse(entryObject[afterColumnName]) || {};
@@ -39,9 +39,9 @@ const getLogChangeList = (entryObject: any, beforeColumnName: string, afterColum
     }, []);
 };
 
-const LogChaneList = ({ inpData: { beforeColumnName, afterColumnName, selectedPane }, toggleView }: IProps) => {
-    const [selected, setSelected] = useState<any>();
 
+// @desc    The full log details list
+const LogChaneList = ({ inpData: { beforeColumnName, afterColumnName, selectedPane }, toggleView }: IProps) => {
     const logChangeList = useMemo(
         () =>
             selectedPane?.selectedEntry

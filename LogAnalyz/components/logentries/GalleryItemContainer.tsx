@@ -12,6 +12,7 @@ interface IProps {
     item: any;
 }
 
+// @desc    The logic of the Gallery Items
 const GalleryItemContainer = ({ item }: IProps) => {
     const { columnNames, setSelectedEntry, selectedEntry } = useContext(
         GalleryContext

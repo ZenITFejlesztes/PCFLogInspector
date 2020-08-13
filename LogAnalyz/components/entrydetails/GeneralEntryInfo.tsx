@@ -1,7 +1,5 @@
 import React from 'react'
-
 import styled from "@emotion/styled"
-
 import shortid from "shortid"
 
 import { Holder } from "../elements"
@@ -10,6 +8,7 @@ interface IProps {
     info: any;
 }
 
+// @desc the top bar of the details pane below navigation
 const GeneralEntryInfo = ({info}: IProps) => {
     return (            
         <DataDisplayGrid>

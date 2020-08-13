@@ -1,18 +1,17 @@
-import React, { useContext, useMemo, useRef, useEffect } from "react";
-
+import React, { useContext, useMemo} from "react";
 import shortid from "shortid";
 
-import { ScrollableHolder } from "../elements";
-
 import { GalleryContext, GalleryContextInterface } from "../../context/galleryContext";
-
 import GalleryItemContainer from "./GalleryItemContainer";
+
+import { ScrollableHolder } from "../elements";
 
 interface IProps {
     columnNames: string[];
     displayList: any[];
 }
 
+// @desc    The (mostly) presentational Gallery Component
 const Gallery = ({}: any) => {
     const {displayList} = useContext(GalleryContext) as GalleryContextInterface;
 

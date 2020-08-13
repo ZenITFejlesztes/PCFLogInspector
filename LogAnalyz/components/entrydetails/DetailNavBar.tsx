@@ -1,17 +1,14 @@
 import React, { useRef, useContext, useEffect } from "react";
-
 import shortid from "shortid"
-
-import { ContainerBasic, Holder } from "../elements";
-
-import { colorPrimary, colorMiddle } from "../../styles/palette";
-
 import styled from "@emotion/styled";
 
 import Arrow from "./Arrow";
-
 import { DetailsContext, DetailsContextInterface } from "../../context/detailsContext";
 
+import { ContainerBasic, Holder } from "../elements";
+import { colorPrimary, colorMiddle } from "../../styles/palette";
+
+// @desc    The pane selector navbar on the top right
 const DetailNavBar = () => {
     const { openedPanes, selectedPane, setSelectedPane } = useContext(
         DetailsContext

@@ -1,7 +1,6 @@
 import React, { useContext, useMemo, useState, useCallback, lazy, Suspense } from "react";
 
 import { Holder } from "../elements";
-
 import { MdClose } from "react-icons/md";
 
 import { GalleryContext, GalleryContextInterface } from "../../context/galleryContext";
@@ -12,6 +11,7 @@ import HiddenSetting from "./HiddenSetting";
 const LogChangeList = lazy(() => import("./LogChangeList"));
 import FindSimilatContainer from "./finder/FindSimilarContainer"
 
+// @desc    Removes selected properties from an object.
 const filterObjectProperties = (oldObject: any, listToRemove: string[]) => {
     try {
         return oldObject
@@ -34,6 +34,7 @@ const filterObjectProperties = (oldObject: any, listToRemove: string[]) => {
     }
 };
 
+// @desc    The top level container of the details pane
 const DetailContainer = () => {
     const {
         beforeAfter: [beforeColumnName, afterColumnName],
@@ -44,6 +45,7 @@ const DetailContainer = () => {
 
     const [displayOption, setDisplayOption] = useState("details");
 
+    // creates the details list array basically
     const genInfoToDisplay = useMemo(
         () =>
             filterObjectProperties(selectedPane?.selectedEntry, [
@@ -93,7 +95,7 @@ const DetailContainer = () => {
                     </Suspense>
                 )}
                 {
-                    displayOption == "related" &&
+                    displayOption == "related" && genInfoToDisplay &&
                     <FindSimilatContainer  toggleView={toggleView} />
                 }
             </div>

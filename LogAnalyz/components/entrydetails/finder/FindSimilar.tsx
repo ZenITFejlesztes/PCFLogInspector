@@ -1,11 +1,10 @@
-import React, { useContext, MutableRefObject } from 'react'
+import React, { MutableRefObject } from "react";
+import styled from "@emotion/styled";
 
-import styled from "@emotion/styled"
+import { Holder, DataHolder } from "../../elements";
+import { colorPrimary, colorMiddle } from "../../../styles/palette";
 
-import {Holder, DataHolder} from "../../elements"
-import { colorPrimary, colorMiddle } from "../../../styles/palette"
-
-import DropDown from "./DropDown"
+import DropDown from "./DropDown";
 
 interface IProps {
     selectableColumns: string[];
@@ -13,45 +12,40 @@ interface IProps {
     reference: MutableRefObject<any>;
 }
 
+//@desc     Presentational part of the finder component
 const FindSimilar = ({ selectableColumns, reference, filterEntries }: IProps) => {
     return (
-        <Holder
-        style={{ position: "relative" }}
-        >
-            <MyParagraph 
-            style={{
-                fontSize: "1.7em", 
-                fontWeight: "bold",
-                marginBottom: "2.5em"
-            }} 
-            >Finding Similar Entries</MyParagraph>
-            <Holder data-reminder="Selecting the column" >
-                <MyParagraph
-                style={{ fontSize: "1.3em" }}
-                >
+        <Holder style={{ position: "relative" }}>
+            <MyParagraph
+                style={{
+                    fontSize: "1.7em",
+                    fontWeight: "bold",
+                    marginBottom: "2.5em",
+                }}
+            >
+                Finding Similar Entries
+            </MyParagraph>
+            <Holder data-reminder="Selecting the column">
+                <MyParagraph style={{ fontSize: "1.3em" }}>
                     Which property to look into?
                 </MyParagraph>
-                <div
-                style={{ width: "50%", margin: "1em auto", marginBottom: "1em" }}
-                >
+                <div style={{ width: "50%", margin: "1em auto", marginBottom: "1em" }}>
                     <DropDown optionList={selectableColumns} reference={reference} />
                 </div>
             </Holder>
             <BottomBar>
-                <SearchButton onClick={filterEntries} >FIND SIMILAR</SearchButton>
+                <SearchButton onClick={filterEntries}>FIND SIMILAR</SearchButton>
             </BottomBar>
-                        
-
         </Holder>
-    )
-}
+    );
+};
 
-export default FindSimilar
+export default FindSimilar;
 
 const MyParagraph = styled(DataHolder)`
     text-align: center;
-    margin: .4em;
-`
+    margin: 0.4em;
+`;
 
 const BottomBar = styled(Holder)`
     position: absolute;
@@ -62,7 +56,7 @@ const BottomBar = styled(Holder)`
     display: flex;
     justify-content: center;
     align-items: center;
-`
+`;
 
 const SearchButton = styled.button`
     width: 50%;
@@ -73,10 +67,10 @@ const SearchButton = styled.button`
     height: 3em;
     font-size: 1.3em;
     font-weight: bold;
-    &:hover{
+    &:hover {
         background: ${colorMiddle};
     }
-    &:focus{
+    &:focus {
         outline: none;
     }
-`
+`;

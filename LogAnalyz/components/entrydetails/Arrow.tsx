@@ -1,18 +1,18 @@
 import React, { MutableRefObject } from "react";
-
-import { ContainerBasic, Holder } from "../elements";
-
-import { colorLightest, colorPrimary, colorLighter, colorMiddle } from "../../styles/palette";
+import styled from "@emotion/styled";
 
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"
+import {  Holder } from "../elements";
+import { colorPrimary, colorMiddle } from "../../styles/palette";
 
-import styled from "@emotion/styled";
 
 interface IProps {
     direction: "left" | "right";
     holderReference: MutableRefObject<any>;
 }
 
+
+// @desc    The arrows on the side of the details page selector   
 const Arrow = ({ direction, holderReference }: IProps) => {
     
     const scrollMeADistance = e => {

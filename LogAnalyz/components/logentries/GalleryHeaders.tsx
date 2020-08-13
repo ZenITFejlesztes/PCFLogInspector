@@ -1,11 +1,10 @@
 import React, {useContext} from 'react'
-
 import shortid from "shortid"
 
 import { ItemHolder, DataHolder } from "../elements"
-
 import { GalleryContext, GalleryContextInterface } from "../../context/galleryContext"
 
+// @desc    The column headings
 const GalleryHeaders = () => {
     const { columnNames } = useContext(GalleryContext) as GalleryContextInterface
 

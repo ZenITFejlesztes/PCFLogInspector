@@ -1,11 +1,8 @@
 import React from 'react'
-
 import styled from "@emotion/styled"
-
 import { IconType } from "react-icons"
 
 import { colorPrimary } from "../../styles/palette"
-
 import { Holder } from "../elements"
 
 interface IProps {
@@ -15,6 +12,7 @@ interface IProps {
     color?: string;
 }
 
+// @desc the triangles on the top-right corners basically
 const HiddenSetting = ({onClickAction, Icon, title="", color="white"}: IProps ) => {
     return (
         <MyHolder>
