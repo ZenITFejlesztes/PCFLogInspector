@@ -38,7 +38,7 @@ const Settings = ({ reference, theme }: IProps) => {
             >
                 SETTINGS
             </MyParagraph>
-            <div style={{ margin: "0px auto", display: "grid", placeItems: "center" }}>
+            <div style={{ margin: "0px auto", display: "grid", placeItems: "center" }} >
                 <ToggleSwitch
                     reference={onlyDiffToggleRef}
                     texts={{ true: "Only show the changes", false: "Show every field" }}
@@ -51,13 +51,12 @@ const Settings = ({ reference, theme }: IProps) => {
 export default Settings;
 
 const SettingsPane = styled(Holder)`
-    z-index: -1;
+    transform: translateY(-100%);
     width: 16em;
     height: 12em;
-    transform: translateY(-12em);
+    transform-origin: bottom center;
     transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
-    pointer-events: none;
-    &.hidden {
-        transform: translateY(-2em) scaleY(0);
+    &.hidden{
+        transform: translateY(0) scaleY(0);
     }
 `;

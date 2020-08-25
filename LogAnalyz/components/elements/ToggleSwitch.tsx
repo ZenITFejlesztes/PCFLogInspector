@@ -14,18 +14,21 @@ const ToggleSwitch = ({ reference, texts }: IProps) => {
 
     useEffect(() => {
         reference.current = toggled;
-    }, [toggled]);
+    }, [toggled, reference]);
 
     const toggleTheSwitch = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        console.log("heey")
         const target = e.currentTarget;
         target.classList.toggle("true");
         setToggled((prev) => !prev);
     };
     return (
-        <Holder>
-            <MyParagraph> {toggled ? texts.true : texts.false} </MyParagraph>
-            <Toggle onClick={toggleTheSwitch} />
-        </Holder>
+        <div>
+            <Holder>
+                <MyParagraph> {toggled ? texts.true : texts.false} </MyParagraph>
+                <Toggle id="find-me-by-this" onClick={toggleTheSwitch} />
+            </Holder>
+        </div>
     );
 };
 

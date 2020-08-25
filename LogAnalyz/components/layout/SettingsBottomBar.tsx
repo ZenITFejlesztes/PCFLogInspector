@@ -63,12 +63,12 @@ const SettingsBottomBar = () => {
                 </div>
                 <div
                     style={{
+                        zIndex: -1,
                         position: "absolute",
                         right: 0,
                         top: 0,
                         height: "fit-content",
                         width: "fit-content",
-                        zIndex: -1,
                     }}
                 >
                     <Settings theme={theme} reference={settingsRef} />
